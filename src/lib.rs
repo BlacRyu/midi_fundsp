@@ -32,6 +32,7 @@ pub mod sounds;
 use fundsp::hacker::{midi_hz, shared, var, An, AudioUnit64, FrameMul, Net64, Shared, Var};
 use std::fmt::Debug;
 use std::sync::Arc;
+#[cfg(feature = "soundtest")]
 use std::time::{Duration, Instant};
 
 /// MIDI values for pitch and velocity range from 0 to 127.
@@ -167,6 +168,7 @@ pub fn semitone_from(bend: u16) -> f64 {
     (bend as f64 - 8192.0) / 8192.0
 }
 
+#[cfg(feature = "soundtest")]
 #[derive(Debug)]
 /// When designing sounds, it can be useful to understand their typical output levels. `SoundTestResult` objects
 /// track the minimum, maximum, and mean output levels.
@@ -177,6 +179,7 @@ pub struct SoundTestResult {
     max: f64,
 }
 
+#[cfg(feature = "soundtest")]
 impl SoundTestResult {
     /// Add a new value to this `SoundTestResult`.
     pub fn add_value(&mut self, value: f64) {
@@ -201,6 +204,7 @@ impl SoundTestResult {
     }
 }
 
+#[cfg(feature = "soundtest")]
 impl Default for SoundTestResult {
     fn default() -> Self {
         Self {
@@ -213,13 +217,17 @@ impl Default for SoundTestResult {
 }
 
 /// Sample rate of 44.1 kHz for use in `SoundTestResult`.
+#[cfg(feature = "soundtest")]
 pub const SAMPLE_RATE: f64 = 44100.0;
 
 /// Duration of test for `SoundTestResult`.
+#[cfg(feature = "soundtest")]
 pub const DURATION: f64 = 5.0;
 
+#[cfg(feature = "soundtest")]
 const SLEEP_TIME: f64 = 1.0 / SAMPLE_RATE;
 
+#[cfg(feature = "soundtest")]
 impl SoundTestResult {
     /// Tests the given `sound` by playing a middle C note for `DURATION` seconds at `SAMPLE_RATE`.
     /// Returns a `SoundTestResult` that summarizes the resuts.
